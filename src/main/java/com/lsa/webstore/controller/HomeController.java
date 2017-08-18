@@ -15,7 +15,7 @@ public class HomeController {
 		return "welcome";
 	}
 
-	@RequestMapping("/")
+	@RequestMapping("/welcome")
 	public ModelAndView showMessage() {
 		System.out.println("in controller");
 		ModelAndView mv = new ModelAndView("welcome");
