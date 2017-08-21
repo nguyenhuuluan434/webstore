@@ -7,15 +7,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-
+	
+	/*@RequestMapping("/")*/
 	public String welcome(Model model) {
 		model.addAttribute("greeting", "Welcome to Web Store!");
 		model.addAttribute("tagline", "The one and only amazing web store");
-
-		return "welcome";
+		return "index";
 	}
 
-	@RequestMapping("/welcome")
+	/*@RequestMapping("/welcome")*/
+	@RequestMapping("/")
 	public ModelAndView showMessage() {
 		System.out.println("in controller");
 		ModelAndView mv = new ModelAndView("welcome");
