@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,7 +15,11 @@
 		<div class="container">
 			<h1>${greeting}</h1>
 			<p>${tagline}</p>
-			<a href="/welcome">welcome</a>
+			<p>
+				<a href="<spring:url value="/products" />" class="btn btndefault">
+					<span class="glyphicon-hand-left glyphicon"></span> products
+				</a>
+			</p>
 		</div>
 	</div>
 	</section>

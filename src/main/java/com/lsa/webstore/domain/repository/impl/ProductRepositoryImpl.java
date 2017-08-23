@@ -3,10 +3,11 @@ package com.lsa.webstore.domain.repository.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
+import com.lsa.webstore.constant.Enum;
 import com.lsa.webstore.domain.Product;
 import com.lsa.webstore.domain.repository.ProductRepository;
 
@@ -28,21 +29,21 @@ public class ProductRepositoryImpl implements ProductRepository {
 	public ProductRepositoryImpl() {
 		Product iphone = new Product("P1234", "iPhone 5s", new BigDecimal(500));
 		iphone.setDescription("Apple iPhone 5s smartphone with 4.00-inch 640x1136 display and 8-megapixel rear camera");
-		iphone.setCategory("Smart Phone");
-		iphone.setManufacturer("Apple");
+		iphone.setCategory(Enum.PHONE.getName());
+		iphone.setManufacturer(Enum.APPLE.getName());
 		iphone.setUnitsInStock(1000);
 
 		Product laptop_dell = new Product("P1235", "Dell Inspiron", new BigDecimal(700));
 		laptop_dell.setDescription("Dell Inspiron 14-inch Laptop(Black) with 3rd Generation Intel Core processors");
-		laptop_dell.setCategory("Laptop");
-		laptop_dell.setManufacturer("Dell");
+		laptop_dell.setCategory(Enum.LAPTOP.getName());
+		laptop_dell.setManufacturer(Enum.DELL.getName());
 		laptop_dell.setUnitsInStock(1000);
 
 		Product tablet_Nexus = new Product("P1236", "Nexus 7", new BigDecimal(300));
 		tablet_Nexus.setDescription(
 				"Google Nexus 7 is the lightest7 inch tablet With a quad-core Qualcomm Snapdragon™ S4 Proprocessor");
-		tablet_Nexus.setCategory("Tablet");
-		tablet_Nexus.setManufacturer("Google");
+		tablet_Nexus.setCategory(Enum.TABLET.getName());
+		tablet_Nexus.setManufacturer(Enum.GOOGLE.getName());
 		tablet_Nexus.setUnitsInStock(1000);
 
 		listOfProducts.add(iphone);
@@ -69,6 +70,51 @@ public class ProductRepositoryImpl implements ProductRepository {
 			throw new IllegalArgumentException("No products found with	the product id: " + productId);
 		}
 		return product;
+	}
+
+	@Override
+	public List<Product> getProductByCategory(String category) {
+		List<Product> products = new ArrayList<Product>();
+		for (Product p : listOfProducts) {
+			if (p != null && p.getCategory() != null && p.getCategory().equals(category)) {
+				products.add(p);
+			}
+		}
+		if (products.isEmpty()) {
+			throw new IllegalArgumentException("No products found with	the product id: " + category);
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> getProductByFilter(Map<String, List<String>> filterParams) {
+		// TODO Auto-generated method stub
+		List<Product> productByBrand = new ArrayList<Product>();
+		List<Product> productByCatagory = new ArrayList<Product>();
+
+		List<String> criterias = new ArrayList<>(filterParams.keySet());
+
+		if (criterias.contains(Enum.BRAND.getName())) {
+			for (String brandName : filterParams.get(Enum.BRAND.getName())) {
+				for (Product product : listOfProducts) {
+					if (product.getManufacturer().equalsIgnoreCase(brandName)) {
+						productByBrand.add(product);
+					}
+				}
+			}
+		}
+
+		if (criterias.contains(Enum.CATEGORY.getName())) {
+			for (String category : filterParams.get(Enum.CATEGORY.getName())) {
+				for (Product product : productByBrand) {
+					if (product.getCategory().equalsIgnoreCase(category)) {
+						productByCatagory.add(product);
+					}
+				}
+			}
+		}
+
+		return productByCatagory;
 	}
 
 }
