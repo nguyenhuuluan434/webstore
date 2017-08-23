@@ -117,4 +117,30 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return productByCatagory;
 	}
 
+	@Override
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		// TODO Auto-generated method stub
+		List<Product> productByBrand = new ArrayList<Product>();
+		for (Product product : listOfProducts) {
+			if (product.getManufacturer().equalsIgnoreCase(manufacturer)) {
+				productByBrand.add(product);
+			}
+		}
+		return productByBrand;
+	}
+
+	@Override
+	public List<Product> getProductsBypriceFilter(Map<String, BigDecimal> filterParams) {
+		List<Product> productByLow = new ArrayList<Product>();
+		List<Product> productByHigh = new ArrayList<Product>();
+		List<String> criterias = new ArrayList<>(filterParams.keySet());
+		if (criterias.contains(Enum.LOW.getName())) {
+			for (Product product : listOfProducts) {
+				if (product.getUnitPrice().compareTo(filterParams.get(Enum.LOW.getName())) < 0) {
+					
+				}
+			}
+		}
+		return productByHigh;
+	}
 }

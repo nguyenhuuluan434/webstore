@@ -2,7 +2,7 @@ package com.lsa.webstore.constant;
 
 public enum Enum {
 	PHONE("phone"), LAPTOP("laptop"), TABLET("tablet"), GOOGLE("google"), APPLE("apple"), DELL("dell"), BRAND(
-			"brand"), CATEGORY("category");
+			"brand"), CATEGORY("category"), LOW("low"), HIGH("high");
 	private String name;
 
 	public String getName() {

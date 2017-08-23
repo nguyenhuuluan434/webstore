@@ -1,5 +1,6 @@
 package com.lsa.webstore.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,18 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductByFilter(Map<String, List<String>> filterParams) {
 		// TODO Auto-generated method stub
 		return productRepository.getProductByFilter(filterParams);
+	}
+
+	@Override
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		// TODO Auto-generated method stub
+		return productRepository.getProductsByManufacturer(manufacturer);
+	}
+
+	@Override
+	public List<Product> getProductsBypriceFilter(Map<String, BigDecimal> filterParams) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
