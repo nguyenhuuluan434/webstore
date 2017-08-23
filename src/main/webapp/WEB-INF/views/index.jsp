@@ -14,7 +14,7 @@
 		<div class="container">
 			<h1>${greeting}</h1>
 			<p>${tagline}</p>
-			<a href="/webstore/welcome">like to</a>
+			<a href="/welcome">welcome</a>
 		</div>
 	</div>
 	</section>

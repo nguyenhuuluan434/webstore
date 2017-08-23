@@ -6,4 +6,6 @@ import com.lsa.webstore.domain.Product;
 
 public interface ProductRepository {
 	List<Product> getAllProduct();
+
+	Product getProductById(String productId);
 }

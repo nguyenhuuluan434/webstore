@@ -20,7 +20,7 @@ class HomeController {
 	/*@RequestMapping("/welcome")*/
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showMessage() {
-		ModelAndView mv = new ModelAndView("welcome");
+		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("greeting", "Welcome to Web Store!");
 		mv.addObject("tagline", "The one and only amazing web store");
 		return mv;

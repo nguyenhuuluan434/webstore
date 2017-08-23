@@ -4,19 +4,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.lsa.webstore.domain.Product;
 import com.lsa.webstore.domain.repository.ProductRepository;
 
-@Service
+//@Service
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-	private static List<Product> listOfProducts = new ArrayList<Product>();
+	private List<Product> listOfProducts = new ArrayList<Product>();
 	private String name;
 
 	public void getName() {
-		 System.out.println(name);
+		System.out.println(name);
 	}
 
 	public void setName(String name) {
@@ -52,6 +54,21 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Override
 	public List<Product> getAllProduct() {
 		return listOfProducts;
+	}
+
+	@Override
+	public Product getProductById(String productId) {
+		Product product = null;
+		for (Product p : listOfProducts) {
+			if (p != null && p.getProductId() != null && p.getProductId().equals(productId)) {
+				product = p;
+				break;
+			}
+		}
+		if (product == null) {
+			throw new IllegalArgumentException("No products found with	the product id: " + productId);
+		}
+		return product;
 	}
 
 }
