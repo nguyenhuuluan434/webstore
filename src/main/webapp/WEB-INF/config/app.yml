@@ -1,0 +1,14 @@
+# application.yml
+
+foo:
+    remote-address: 192.168.1.1
+    security:
+        username: foo
+        roles:
+          - USER
+          - ADMIN
+
+app:
+    name: Spring boot yaml
+    hello:
+        message: ${app.name} message

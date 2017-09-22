@@ -20,5 +20,4 @@ public class ServletConfiguraion implements WebApplicationInitializer {
 		servlet.setLoadOnStartup(1);
 		servlet.addMapping("/");
 	}
-
 }

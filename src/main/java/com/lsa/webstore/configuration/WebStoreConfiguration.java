@@ -1,8 +1,20 @@
 package com.lsa.webstore.configuration;
 
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,7 +31,14 @@ import org.springframework.web.util.UrlPathHelper;
  * @EnableJpaRepositories(basePackageClasses = { ProductRepositoryImpl.class,
  * ProductRepository.class })
  */
+
 public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
+	private static ServletContext ctx;
+
+	public void setServletContext(ServletContext servletContext) {
+		this.ctx = servletContext;
+	}
+
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -40,6 +59,23 @@ public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
 		UrlPathHelper urlPathHelper = new UrlPathHelper();
 		urlPathHelper.setRemoveSemicolonContent(false);
 		configurer.setUrlPathHelper(urlPathHelper);
+	}
+
+	@Bean
+	public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() throws IOException {
+		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+		MutablePropertySources propertySources = new MutablePropertySources();
+		
+		Resource resourceYaml = new DefaultResourceLoader().getResource("classpath:config/app.yml");
+		YamlPropertySourceLoader sourceYamlLoader = new YamlPropertySourceLoader();
+		PropertySource<?> yamlProperties = sourceYamlLoader.load("resourceYaml", resourceYaml, null);
+		
+		// configurer.setLocations(resource);
+		propertySources.addFirst(yamlProperties);
+		
+		configurer.setIgnoreUnresolvablePlaceholders(true);
+		configurer.setPropertySources(propertySources);
+		return configurer;
 	}
 
 }
