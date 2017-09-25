@@ -66,14 +66,12 @@ public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
 		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
 		MutablePropertySources propertySources = new MutablePropertySources();
 		
-		Resource resourceYaml = new DefaultResourceLoader().getResource("classpath:config/app.yml");
+		Resource resourceYaml = new DefaultResourceLoader().getResource("file:./config/app.yml");
 		YamlPropertySourceLoader sourceYamlLoader = new YamlPropertySourceLoader();
 		PropertySource<?> yamlProperties = sourceYamlLoader.load("resourceYaml", resourceYaml, null);
-		
-		// configurer.setLocations(resource);
 		propertySources.addFirst(yamlProperties);
 		
-		configurer.setIgnoreUnresolvablePlaceholders(true);
+		//configurer.setIgnoreUnresolvablePlaceholders(true);
 		configurer.setPropertySources(propertySources);
 		return configurer;
 	}
