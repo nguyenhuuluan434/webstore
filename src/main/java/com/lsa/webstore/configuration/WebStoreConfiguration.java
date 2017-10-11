@@ -2,18 +2,12 @@ package com.lsa.webstore.configuration;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
-
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -31,13 +25,9 @@ import org.springframework.web.util.UrlPathHelper;
  * @EnableJpaRepositories(basePackageClasses = { ProductRepositoryImpl.class,
  * ProductRepository.class })
  */
+// @PropertySource(value={"classpath:./config/app.yml","classpath:./config/app.properties"})
 
 public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
-	private static ServletContext ctx;
-
-	public void setServletContext(ServletContext servletContext) {
-		this.ctx = servletContext;
-	}
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -64,16 +54,17 @@ public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
 	public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() throws IOException {
 		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-		MutablePropertySources propertySources = new MutablePropertySources();
-		
-		Resource resourceYaml = new DefaultResourceLoader().getResource("file:./config/app.yml");
-		YamlPropertySourceLoader sourceYamlLoader = new YamlPropertySourceLoader();
-		PropertySource<?> yamlProperties = sourceYamlLoader.load("resourceYaml", resourceYaml, null);
-		propertySources.addFirst(yamlProperties);
-		
-		//configurer.setIgnoreUnresolvablePlaceholders(true);
-		configurer.setPropertySources(propertySources);
+		configurer.setLocations(new Resource[]{new ClassPathResource("config/app.properties"), new ClassPathResource("config/app.yml")});
 		return configurer;
+	}
+
+	@Value("${app.remote-address}")
+	private String remote;
+
+	@Bean(name = "bean")
+	public String getABean(@Value("${app.remote-address}") String beanName) {
+		String tmp = beanName;
+		return tmp;
 	}
 
 }
