@@ -137,10 +137,17 @@ public class ProductRepositoryImpl implements ProductRepository {
 		if (criterias.contains(Enum.LOW.getName())) {
 			for (Product product : listOfProducts) {
 				if (product.getUnitPrice().compareTo(filterParams.get(Enum.LOW.getName())) < 0) {
-					
+
 				}
 			}
 		}
 		return productByHigh;
 	}
+
+	@Override
+	public void addProduct(Product product) {
+		listOfProducts.add(product);
+
+	}
+
 }

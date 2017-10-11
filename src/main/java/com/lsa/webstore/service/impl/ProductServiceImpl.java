@@ -53,4 +53,12 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	@Override
+	public void addProduct(Product product) {
+		// TODO Auto-generated method stub
+		productRepository.addProduct(product);
+		
+	}
+
+	
 }
