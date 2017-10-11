@@ -61,7 +61,7 @@ public class WebStoreConfiguration extends WebMvcConfigurerAdapter {
 	@Value("${app.remote-address}")
 	private String remote;
 
-	@Bean(name = "bean")
+	@Bean(name = "remote-address")
 	public String getABean(@Value("${app.remote-address}") String beanName) {
 		String tmp = beanName;
 		return tmp;
